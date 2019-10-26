@@ -19,18 +19,56 @@ driver = webdriver.Chrome()
 # Directing the driver to the defined url
 driver.get(url)
 
+#wait = ui.WebDriverWait(driver, 5)
+
+# storing the current window handle to get back to dashbord 
+main_page = driver.current_window_handle
+#apply_page = None
+
+apply_button = driver.find_element_by_xpath('//*[@id="indeedApplyButtonContainer"]/span/div[2]/button/div')
+apply_button.click()
+
+#wait = ui.WebDriverWait(driver, 5)
+
+
+#/html/body/iframe 
+WebDriverWait(driver, 10).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, "/html/body/iframe")))
+WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="input-applicant.name"]'))).send_keys("John Smith")
+# change the control to apply page        
+#driver.switch_to.window(apply_page) 
+#driver.switch_to.frame(driver.find_element_by_xpath("/html/body/iframe"))
+
+# changing the handles to access login page 
+"""while not apply_page:
+    for handle in driver.window_handles:
+        if handle != main_page:
+            apply_page = handle 
+            break
+            """ 
+            
+# Now we are in the popup window
+#text_name = driver.find_element_by_xpath("//*[@id='input-applicant.name']")
+#text_name.clear()
+#text_name.send_keys("John Smith")
+#wait = ui.WebDriverWait(driver, 5)
+
+"""text_email = driver.find_element_by_xpath('//*[@id="input-applicant.email"]')
+text_email.clear()
+text_email.send_keys("sohnsmith@email.com")"""
+
+"""text_phone = driver.find_element_by_xpath('//*[@id="input-applicant.phoneNumber"]')
+text_phone.clear()
+text_phone.send_keys("222-333-4444")"""
+
+#elem.clear()
+#elem.send_keys("pycon")
+#elem.send_keys(Keys.RETURN)
 
 wait = ui.WebDriverWait(driver, 5)
-#wait.until(page_is_loaded)
 
-driver.find_element_by_xpath('//*[@id="indeedApplyButtonContainer"]/span/div[2]/button/div').click()
-#driver.find_elements(By.CLASS_NAME, "icl-Button icl-Button--branded icl-Button--md").click()
+# switch back to parent window
 
-wait = ui.WebDriverWait(driver, 5)
+###################
 #driver.quit()
 
-# Identifying the "Python" tab by its XML id
-#python_tab_id = 'ui-id-2'
-#python_tab = driver.find_element_by_class_name(python_tab_id)
-# "Clicking" on the tab
-#python_tab.click()
+
