@@ -1,0 +1,20 @@
+John Smith
+Phone: 123-456-7890
+Email: applysmith2345@gmail.com
+
+
+
+Dear Hiring Manager,
+
+I am interested in the position you listed on #company website. This program has deeply attracted me with challenging yet rewarding job scope and I have found an ideal match between requirements and my qualifications.
+
+I have a Bachelor Degree in Computer Science. For the last two years I have interned in the software development department at ABCD Tech Corporation. This tenure has provided invaluable insight in the effective operation of developing and creating software solutions for a wide range of industries.
+
+I am ready to take this knowledge in a new direction such as the one offered by #company. Also I work part-time with a startup providing them solutions to make better software products. I am prepared to use my Junior Software Developer skills and experiences to develop maintain and train in software programs improving functionality and company reputation using everything from Java to managing lifecycles. I have defined my abilities in quick problem solving and applying abstract and technical concepts to proven techniques.
+
+I hope my resume helps you understand the application stack I have worked on and also helps you find a better fit for the position you have to offer at #company .
+
+Thank You.
+
+Sincerely,
+John Smith
