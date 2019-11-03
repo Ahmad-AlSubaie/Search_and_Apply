@@ -16,7 +16,6 @@ def write_cover_letter():
     with open("info.csv") as info_csv:
 
         reader = csv.reader(info_csv)
-        rownum = 0
 
         for row in reader:
 
@@ -30,21 +29,18 @@ def write_cover_letter():
             
             for line in lines:
                 
+                line = line.replace("#position", row[0])
                 line = line.replace("#company", row[1])
                
                 #print(line1)
                 pdf.write(6, line)
 
-           # pdf.output('cover_letters/Cover Letter - ' + row[4] + '.pdf', 'F')
+           
             pdf.output('cover_letter.pdf', 'F')
             pdf.close()
             temp_cover_letter.close()
             
 
 if __name__ == "__main__":
-
-    #cover_letter = argv[1]
-   # info = argv[2]
-
-    # just use the right file names or modify the ones provided
+  
     write_cover_letter()
