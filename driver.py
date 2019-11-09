@@ -7,7 +7,7 @@ def main():
   #save search tems to list_to_search
 
   list_to_search = ['software engineer', 'art']
-  #searchFor(list_to_search)
+  #searchFor(list_to_search) and writes the resultes to URLs_from_IndeedSpider
 
   #open file URLs_from_IndeedSpider
   #save relavent links to list_of_links

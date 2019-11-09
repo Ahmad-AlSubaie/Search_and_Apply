@@ -78,22 +78,35 @@ class ApplySpider(scrapy.Spider):
 
     def parse(self, response):
       open_in_browser(response)
-      print("\n"+ response.url+ "\n")
 
 
       self.driver.get(response.url)
 
-      apply_button = self.driver.find_element_by_xpath('//*[@id="indeedApplyButtonContainer"]/span/div[2]/button/div')
-      apply_button.click()
-      WebDriverWait(self.driver, 10).until(EC.frame_to_be_available_and_switch_to_it((By.NAME, "Apply Now")))
-      self.driver.get_screenshot_as_file('debug.png')
 
+
+
+      apply_button = self.driver.find_element_by_xpath('//*[@id="indeedApplyButtonContainer"]')
+      apply_button.click()
+
+      self.driver.implicitly_wait(5)
+
+      frame = self.driver.find_element_by_xpath('//*[@id="indeedapply-modal-preload-iframe"]/html/body/iframe')
+      self.driver.switch_to.frame(frame)
+      frame = self.driver.find_element_by_xpath("")
+      self.driver.switch_to.frame(frame)
+
+      #self.driver.get_screenshot_as_file('/debug.png')
+
+
+      body = self.driver.page_source
+      #response = HtmlResponse(self.driver.current_url, body=body, encoding='utf-8')
 
       return scrapy.FormRequest.from_response(
             response,
             clickdata=None,
             formdata={'applicant.name': self.name,'applicant.email': self.email }
         )
+
 
 def searchFor(searchVar):
 
