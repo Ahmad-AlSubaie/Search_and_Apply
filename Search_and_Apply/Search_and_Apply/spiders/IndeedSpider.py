@@ -1,5 +1,6 @@
 import scrapy
 from scrapy.utils.response import open_in_browser
+from twisted.internet import reactor
 from scrapy.crawler import CrawlerProcess
 from scrapy.settings import Settings
 
@@ -18,15 +19,17 @@ class IndeedSpider(scrapy.Spider):
     name = "IndeedSpider"
 
     custom_settings ={
-        'FEED_FORMAT': 'json',
+        'FEED_FORMAT': 'jsonlines',
         'FEED_URI': 'URLs_from_IndeedSpider.json',
-        "TELNETCONSOLE_PORT" : None
+        "TELNETCONSOLE_PORT" : None,
+        'DOWNLOADER_MIDDLEWARES': None
         }
 
     start_urls = ["https://www.indeed.com/"]
 
-    def __init__(self, searchVar):
-      self.search=searchVar
+    def __init__(self, item='', *args, **kwargs):
+      super(IndeedSpider, self).__init__(*args, **kwargs)
+      self.search=item
 
 
     def start_requests(self):
@@ -62,26 +65,25 @@ class ApplySpider(scrapy.Spider):
 
     name = "ApplySpider"
 
-    def __init__(self, linkVar, name, email):
-      self.start_urls = linkVar
+    def __init__(self, name='', email='', *args,**kwargs):
+
       self.username = name
       self.email = email
-      self.options = webdriver.ChromeOptions()
-      self.options.add_argument('headless')
-      self.options.add_argument('window-size=1200x600')
-      self.driver = webdriver.Chrome(chrome_options=self.options)
+      options = webdriver.ChromeOptions()
+      options.add_argument('headless')
+      options.add_argument('window-size=1200x600')
+      self.driver = webdriver.Chrome(chrome_options=options)
+      super(ApplySpider, self).__init__(*args, **kwargs)
+
 
 
     def start_requests(self):
       yield scrapy.Request(url=self.start_urls[0], callback=self.parse)
 
-
     def parse(self, response):
-      open_in_browser(response)
 
-
+      print("#################\n")
       self.driver.get(response.url)
-
 
 
 
@@ -90,15 +92,16 @@ class ApplySpider(scrapy.Spider):
 
       self.driver.implicitly_wait(5)
 
-      frame = self.driver.find_element_by_xpath('//*[@id="indeedapply-modal-preload-iframe"]/html/body/iframe')
-      self.driver.switch_to.frame(frame)
-      frame = self.driver.find_element_by_xpath("")
-      self.driver.switch_to.frame(frame)
+
+      #frame = self.driver.find_element_by_xpath('//*[@id="indeedapply-modal-preload-iframe"]/html/body/iframe')
+      #self.driver.switch_to.frame(frame)
+      #frame = self.driver.find_element_by_xpath("")
+      #self.driver.switch_to.frame(frame)
 
       #self.driver.get_screenshot_as_file('/debug.png')
 
 
-      body = self.driver.page_source
+      #body = self.driver.page_source
       #response = HtmlResponse(self.driver.current_url, body=body, encoding='utf-8')
 
       return scrapy.FormRequest.from_response(
@@ -109,16 +112,27 @@ class ApplySpider(scrapy.Spider):
 
 
 def searchFor(searchVar):
+  if reactor.running:
+      reactor.stop()
+  settings = Settings()
+  p = CrawlerProcess(settings)
+  __searchFor(searchVar, p)
+  reactor.run()
 
-    settings = Settings()
-    process = CrawlerProcess(settings)
-    settings.set('DOWNLOADER_MIDDLEWARES', None)
-    for item in searchVar:
-      process.crawl(IndeedSpider, item)
-    process.start()
 
 def applyTo(applyVar):
-    settings = Settings()
-    process = CrawlerProcess(settings)
-    process.crawl(ApplySpider, applyVar[0], applyVar[1], applyVar[2])
-    process.start()
+  if reactor.running:
+      reactor.stop()
+  settings = Settings()
+  p = CrawlerProcess(settings)
+  __applyTo(applyVar, p)
+  reactor.run()
+
+
+def __searchFor(searchVar, p):
+    for item in searchVar:
+      p.crawl(IndeedSpider, item=searchVar)
+
+
+def __applyTo(applyVar, p):
+    p.crawl(ApplySpider, start_urls=applyVar[0], name=applyVar[1], email=applyVar[2])
