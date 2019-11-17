@@ -99,7 +99,8 @@ def searchFor(searchVar):
   p = CrawlerRunner(settings)
   for item in searchVar:
     p.crawl(IndeedSpider, item=searchVar)
-  p.addBoth(lambda _: reactor.stop())
+  p2 = p.join()
+  p2.addBoth(lambda _: reactor.stop())
   reactor.run()
 
 
