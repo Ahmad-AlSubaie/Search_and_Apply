@@ -1,7 +1,7 @@
 import scrapy
 from scrapy.utils.response import open_in_browser
 from twisted.internet import reactor
-from scrapy.crawler import CrawlerProcess
+from scrapy.crawler import CrawlerRunner
 from scrapy.settings import Settings
 
 from scrapy.http import HtmlResponse
@@ -30,6 +30,7 @@ class IndeedSpider(scrapy.Spider):
     def __init__(self, item='', *args, **kwargs):
       super(IndeedSpider, self).__init__(*args, **kwargs)
       self.search=item
+      print("##Indeed##")
 
 
     def start_requests(self):
@@ -52,7 +53,7 @@ class IndeedSpider(scrapy.Spider):
         data.append(Job(
             Title = Titles[i],
             Link = "https://www.indeed.com" +  Links[i]))
-
+      print("Indeed Done")
       return data
 
 
@@ -66,44 +67,25 @@ class ApplySpider(scrapy.Spider):
     name = "ApplySpider"
 
     def __init__(self, name='', email='', *args,**kwargs):
-
+      super(ApplySpider, self).__init__(*args, **kwargs)
       self.username = name
       self.email = email
       options = webdriver.ChromeOptions()
       options.add_argument('headless')
       options.add_argument('window-size=1200x600')
       self.driver = webdriver.Chrome(chrome_options=options)
-      super(ApplySpider, self).__init__(*args, **kwargs)
+      print("##Apply##")
 
 
 
     def start_requests(self):
-      yield scrapy.Request(url=self.start_urls[0], callback=self.parse)
+      yield scrapy.Request(url=self.start_urls, callback=self.parse)
 
     def parse(self, response):
-
-      print("#################\n")
+      print("response.url")
       self.driver.get(response.url)
 
-
-
-      apply_button = self.driver.find_element_by_xpath('//*[@id="indeedApplyButtonContainer"]')
-      apply_button.click()
-
-      self.driver.implicitly_wait(5)
-
-
-      #frame = self.driver.find_element_by_xpath('//*[@id="indeedapply-modal-preload-iframe"]/html/body/iframe')
-      #self.driver.switch_to.frame(frame)
-      #frame = self.driver.find_element_by_xpath("")
-      #self.driver.switch_to.frame(frame)
-
-      #self.driver.get_screenshot_as_file('/debug.png')
-
-
-      #body = self.driver.page_source
-      #response = HtmlResponse(self.driver.current_url, body=body, encoding='utf-8')
-
+      print("Apply Done")
       return scrapy.FormRequest.from_response(
             response,
             clickdata=None,
@@ -111,28 +93,20 @@ class ApplySpider(scrapy.Spider):
         )
 
 
+
 def searchFor(searchVar):
-  if reactor.running:
-      reactor.stop()
   settings = Settings()
-  p = CrawlerProcess(settings)
-  __searchFor(searchVar, p)
+  p = CrawlerRunner(settings)
+  for item in searchVar:
+    p.crawl(IndeedSpider, item=searchVar)
+  p2 = p.join()
+  p2.addBoth(lambda _: reactor.stop())
   reactor.run()
 
 
 def applyTo(applyVar):
-  if reactor.running:
-      reactor.stop()
   settings = Settings()
-  p = CrawlerProcess(settings)
-  __applyTo(applyVar, p)
+  p = CrawlerRunner(settings)
+  p.crawl(ApplySpider, start_urls=applyVar[0], name=applyVar[1], email=applyVar[2])
+  p.addBoth(lambda _: reactor.stop())
   reactor.run()
-
-
-def __searchFor(searchVar, p):
-    for item in searchVar:
-      p.crawl(IndeedSpider, item=searchVar)
-
-
-def __applyTo(applyVar, p):
-    p.crawl(ApplySpider, start_urls=applyVar[0], name=applyVar[1], email=applyVar[2])

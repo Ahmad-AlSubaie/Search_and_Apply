@@ -11,31 +11,8 @@ def main():
   list_to_search = ['software engineer', 'art']
   searchFor(list_to_search) #and writes the resultes to URLs_from_IndeedSpider
 
-
   #open file URLs_from_IndeedSpider
   #save relavent links to list_of_links
-
-with open("URLs_from_IndeedSpider.json", 'r') as file:
-
-  data = file.read()
-  ndata = data.split('\n')
-  outdata = []
-
-  print(json.dumps(ndata))
-
-  for d in ndata:
-    d.strip(' []\n{}')
-    if((d != '' )and (d !=  '[' )and (d !=  ']' )and  (d !=  '[]' )and  (d !=  '][' )):
-      outdata.append(d.strip('{}'))
-  print(outdata[0][0:15])
-  print("#############")
-
-
-  for x in range(len(data)):
-    thing = data[x]['title']
-
-
-
 
   list_of_links = ['https://www.indeed.com/viewjob?cmp=Catalyte&t=Become+Software+Developer+No+Experience&jk=1bcef3d9fc1b0b32&sjdu=QwrRXKrqZ3CNX5W-O9jEvW16Yhk4ozNCdaWKrMunypsF4bpKjscnMnzPFjGwUT8pmTq0NikKnfo91oL8LEaz9PmFE3FVkgBqhjy5aD2O7I6Oveef6XgOIAsWlCpqPX_L&adid=321198033&pub=4a1b367933fd867b19b072952f68dceb&vjs=3']
 
