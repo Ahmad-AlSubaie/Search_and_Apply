@@ -15,6 +15,9 @@ SPIDER_MODULES = ['Search_and_Apply.spiders']
 NEWSPIDER_MODULE = 'Search_and_Apply.spiders'
 
 
+TELNETCONSOLE_PORT = None
+
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'Search_and_Apply (+http://www.yourdomain.com)'
 
@@ -52,9 +55,9 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'Search_and_Apply.middlewares.SearchAndApplyDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    'Search_and_Apply.middlewares.SearchAndApplyDownloaderMiddleware': 543,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
