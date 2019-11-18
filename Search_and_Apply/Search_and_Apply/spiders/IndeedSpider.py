@@ -27,9 +27,15 @@ class IndeedSpider(scrapy.Spider):
 
     start_urls = ["https://www.indeed.com/"]
 
-    def __init__(self, item='', *args, **kwargs):
+    def __init__(self, item='', , name='', email='',, *args, **kwargs):
       super(IndeedSpider, self).__init__(*args, **kwargs)
       self.search=item
+      self.username = name
+      self.email = email
+      options = webdriver.ChromeOptions()
+      options.add_argument('headless')
+      options.add_argument('window-size=1200x600')
+      self.driver = webdriver.Chrome(chrome_options=options)
       print("##Indeed##")
 
 
@@ -94,19 +100,11 @@ class ApplySpider(scrapy.Spider):
 
 
 
-def searchFor(searchVar):
+def searchFor(searchVar = '', start_urls = ["https://www.indeed.com/"], name = '', email = ''):
   settings = Settings()
   p = CrawlerRunner(settings)
-  for item in searchVar:
-    p.crawl(IndeedSpider, item=searchVar)
+  for thing in searchVar:
+    p.crawl(IndeedSpider, item=thing, start_urls=start_urls, name=name, email=email)
   p2 = p.join()
   p2.addBoth(lambda _: reactor.stop())
-  reactor.run()
-
-
-def applyTo(applyVar):
-  settings = Settings()
-  p = CrawlerRunner(settings)
-  p.crawl(ApplySpider, start_urls=applyVar[0], name=applyVar[1], email=applyVar[2])
-  p.addBoth(lambda _: reactor.stop())
   reactor.run()
