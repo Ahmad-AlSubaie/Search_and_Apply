@@ -1,7 +1,8 @@
 import tkinter as tk #tkinter is our gui lib.
 import webbrowser #webbrowser allows us to open user's default web browser. good for clicking on links.
 import jsonlines
-
+import io
+import genCoverLetter as gcl
 
 from Search_and_Apply.Search_and_Apply.spiders.IndeedSpider import searchFor
 from Search_and_Apply.Search_and_Apply.IndeedExpressApply import ExpressApply
@@ -15,6 +16,9 @@ if __name__ == '__main__':#not sure what this does. might delete later.
     links = ["link1","link2","link3","link4","link5"]
     name = "empty"
     email = "empty"
+    position = "A fine position"
+    company = "A fine company"
+    phone = "777"
 
     def BuildMenu(): #buildmenu is called each time the main window is changed. just builds the menu.
         mb = tk.Menubutton(root,text="Menu")
@@ -46,6 +50,15 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         print("searching... %s" % keywords)
         display_links()
 
+
+    def clettergen():
+        global position
+        global company
+        global name
+        global email
+        to_csv()
+        gcl.write_cover_letter()
+
     def apply(L): #given name and email and a list of relevant links, call applyTo. needs some work. shouldn't take long.
         global name
         global email
@@ -68,10 +81,6 @@ if __name__ == '__main__':#not sure what this does. might delete later.
             widget.destroy()
         BuildMenu()
         tk.Message(root,text="Cover Letter",width=3000).grid(row=1,column=1)
-        tk.Label(root,text="Search Keywords").grid(row=2,column=1) #some labels, entries, and buttons.
-        key_ent = tk.Entry(root)
-        key_ent.grid(row=2,column=2)
-        tk.Button(root,text="Search",command=lambda:search(key_ent.get())).grid(row=2,column=3)
 
         tk.Label(root,text="Name").grid(row=3,column=1)
         name_ent = tk.Entry(root)
@@ -82,6 +91,38 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         email_ent = tk.Entry(root)
         email_ent.grid(row=4,column=2)
         tk.Button(root,text="Save Email",command=lambda: save_email(email_ent.get())).grid(row=4,column=3)
+
+        tk.Label(root,text="Position").grid(row=5,column=1)
+        position_ent = tk.Entry(root)
+        position_ent.grid(row=5,column=2)
+        tk.Button(root,text="Save Position",command=lambda: save_position(position_ent.get())).grid(row=5,column=3)
+
+        tk.Label(root,text="Company").grid(row=6,column=1)
+        company_ent= tk.Entry(root)
+        company_ent.grid(row=6,column=2)
+        tk.Button(root,text="Save Company",command=lambda: save_company(company_ent.get())).grid(row=6,column=3)
+
+        tk.Label(root,text="Phone").grid(row=7,column=1)
+        phone_ent= tk.Entry(root)
+        phone_ent.grid(row=7,column=2)
+        tk.Button(root,text="Phone",command=lambda: save_phone(phone_ent.get())).grid(row=7,column=3)
+
+        tk.Button(root,text="Generate Cover Letter",command=clettergen).grid(row=9,column=2)
+        #takes keywords, generates pdf.
+
+    def save_phone(new_phone):
+        global phone
+        phone = new_phone
+        print("Saving phone as %s" % phone)
+
+    def to_csv():
+        #to comma-separated string
+        step1 = [position+","+company+","+name+","+email]
+        step2 = ",".join(step1)
+        s=io.StringIO(step2)
+        with open('info.csv','w') as f:
+            for line in s:
+                f.write(line)
 
     def Profile(): #profile page. essentially finished.
         for widget in root.winfo_children():
@@ -133,6 +174,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
                 hyperlinks.append(tk.Label(root,text=link['Title'],fg="blue",cursor="hand2"))
                 hyperlinks[i].grid(row=i+10,column=1)
                 hyperlinks[i].bind("<Button-1>", lambda e: open_link(link['Link'])) #button-1 means left-click.
+                tk.Button(root,text="Apply",command=apply).grid(row=i+10,column=2)
                 i+=1
 
     def AdditionalInfo(): #additional info page.
