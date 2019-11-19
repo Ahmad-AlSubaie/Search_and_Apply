@@ -13,6 +13,8 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 class ExpressApply():
 
+    username = ''
+    email = ''
 
     def __init__(self):
       options = webdriver.ChromeOptions()
@@ -23,7 +25,7 @@ class ExpressApply():
       print("##Apply##")
 
 
-    def addEamil(self, email):
+    def addEmail(self, email):
         self.email = email
 
     def addName(self, name):
@@ -66,12 +68,12 @@ class ExpressApply():
         try:
             wait = ui.WebDriverWait(driver, 20)
             text_name.clear()
-            text_name.send_keys(self.name)
+            text_name.send_keys(self.username)
         except StaleElementReferenceException as Exception:
             print('StaleElementReferenceException while trying to type title')
             text_name = driver.find_element_by_xpath("//*[@id='input-applicant.name']")
             text_name.clear()
-            text_name.send_keys(self.name)
+            text_name.send_keys(self.username)
 
         # filling email
         text_email = driver.find_element_by_xpath('//*[@id="input-applicant.email"]')
@@ -100,5 +102,6 @@ class ExpressApply():
 
 
         wait = ui.WebDriverWait(driver, 5)
+
 
 

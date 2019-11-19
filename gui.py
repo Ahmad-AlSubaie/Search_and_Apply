@@ -66,14 +66,13 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         gcl.write_cover_letter()
 
     def apply(L): #given name and email and a list of relevant links, call applyTo. needs some work. shouldn't take long.
-        global name
-        global email
-        global links
         global applyBot
 
-        try:
-            applyBot.applyTo(L)
-        except AttributeError as Exception:
+        #try:
+        applyBot.applyTo(L)
+        except AttributeError as e:
+            print(e)
+            print(L)
             popup = tk.Toplevel()
             tk.Message(popup,text="Error: Please create a profile,",width=3000).grid(row=0,column=0)
             tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
@@ -138,8 +137,6 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
 
 
-
-
     def save_company(new_company):
         global company
         company = new_company
@@ -176,7 +173,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
     def save_name(new_name): #simply saves name from text field to global var.
         global name
         name = new_name
-
+        applyBot.addName(name)
         popup = tk.Toplevel()
         tk.Message(popup,text="Profile updated with your name,",width=3000).grid(row=0,column=0)
         tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
@@ -185,6 +182,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
     def save_email(new_email): #simply saves email from text field to global var.
         global email
         email = new_email
+        applyBot.addEmail(email)
         popup = tk.Toplevel()
         tk.Message(popup,text="Profile updated with your email,",width=3000).grid(row=0,column=0)
         tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
@@ -225,6 +223,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
 
 
     hyperlinks = []
+    print("loading...")
     applyBot = ExpressApply()
     BuildMenu()
     root.geometry("640x480")
