@@ -1,6 +1,7 @@
 import tkinter as tk #tkinter is our gui lib.
 import webbrowser #webbrowser allows us to open user's default web browser. good for clicking on links.
-import json
+import jsonlines
+
 
 from Search_and_Apply.Search_and_Apply.spiders.IndeedSpider import searchFor
 from Search_and_Apply.Search_and_Apply.IndeedExpressApply import ExpressApply
@@ -53,7 +54,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         applyBot.applyTo(links)
 
     def open_link(event): #simply opens the links.
-        webbrowser.open_new_tab(event.widget.cget("text"))
+        webbrowser.open_new_tab(event)
 
     def Resume(): #resume page. needs some work. shouldn't take long.
         for widget in root.winfo_children(): #eliminates all widgets. clears the window.
@@ -117,16 +118,16 @@ if __name__ == '__main__':#not sure what this does. might delete later.
     def display_links(): #fun function. turns global links list into hyperlinks in the window.
 
 
-        with open("URLs_from_IndeedSpider.json", 'r') as f:
-            distros_dict = json.load(f)
+        with jsonlines.open("URLs_from_IndeedSpider.json", mode ='r') as reader:
+            distros_dict = reader.iter(type = dict)
 
             global links
             i=0
             hyperlinks=[]
-            for link in distros_dict.keys():
-                hyperlinks.append(tk.Label(root,text=link,fg="blue",cursor="hand2"))
+            for link in distros_dict:
+                hyperlinks.append(tk.Label(root,text=link['Title'],fg="blue",cursor="hand2"))
                 hyperlinks[i].grid(row=i+10,column=1)
-                hyperlinks[i].bind("<Button-1>",open_link) #button-1 means left-click.
+                hyperlinks[i].bind("<Button-1>", lambda e: open_link(link['Link'])) #button-1 means left-click.
                 i+=1
 
     def AdditionalInfo(): #additional info page.
