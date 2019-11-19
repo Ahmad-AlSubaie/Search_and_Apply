@@ -2,7 +2,7 @@ import tkinter as tk #tkinter is our gui lib.
 import webbrowser #webbrowser allows us to open user's default web browser. good for clicking on links.
 import jsonlines
 import io
-import genCoverLetter as gcl
+#import genCoverLetter as gcl
 
 from Search_and_Apply.Search_and_Apply.spiders.IndeedSpider import searchFor
 from Search_and_Apply.Search_and_Apply.IndeedExpressApply import ExpressApply
@@ -65,7 +65,10 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         global links
         global applyBot
 
+        #try:
         applyBot.applyTo(L)
+        #except TypeError as Exception:
+
 
     def open_link(event): #simply opens the links.
         webbrowser.open_new_tab(event)
@@ -174,7 +177,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
                 hyperlinks.append(tk.Label(root,text=link['Title'],fg="blue",cursor="hand2"))
                 hyperlinks[i].grid(row=i+10,column=1)
                 hyperlinks[i].bind("<Button-1>", lambda e: open_link(link['Link'])) #button-1 means left-click.
-                tk.Button(root,text="Apply",command=apply).grid(row=i+10,column=2)
+                tk.Button(root,text="Apply",command=lambda : apply(link['Link'])).grid(row=i+10,column=2)
                 i+=1
 
     def AdditionalInfo(): #additional info page.

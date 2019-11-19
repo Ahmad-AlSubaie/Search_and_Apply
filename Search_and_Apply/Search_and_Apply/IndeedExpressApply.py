@@ -93,7 +93,6 @@ class ExpressApply():
         #    text_phone.clear()
         #    text_phone.send_keys("111-222-3456")
 
-        driver.
 
 
         wait = ui.WebDriverWait(driver, 5)
