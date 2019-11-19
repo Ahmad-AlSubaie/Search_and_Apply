@@ -55,6 +55,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         global company
         global name
         global email
+        global phone
         to_csv()
         gcl.write_cover_letter()
 
@@ -125,7 +126,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
 
     def to_csv():
         #to comma-separated string
-        step1 = [position+","+company+","+name+","+email]
+        step1 = [position+","+company+","+name+","+email+","+phone]
         step2 = ",".join(step1)
         s=io.StringIO(step2)
         with open('info.csv','w') as f:
