@@ -2,7 +2,7 @@ import tkinter as tk #tkinter is our gui lib.
 import webbrowser #webbrowser allows us to open user's default web browser. good for clicking on links.
 import jsonlines
 import io
-#import genCoverLetter as gcl
+import genCoverLetter as gcl
 
 from Search_and_Apply.Search_and_Apply.spiders.IndeedSpider import searchFor
 from Search_and_Apply.Search_and_Apply.IndeedExpressApply import ExpressApply
@@ -36,6 +36,11 @@ if __name__ == '__main__':#not sure what this does. might delete later.
     def Keywords(): #keywords page.
         for widget in root.winfo_children(): #eliminates all widgets. clears the window.
             widget.destroy()
+
+        with open("URLs_from_IndeedSpider.json", mode ='r') as reader:
+            file_data = reader.read().strip('\n []{}')
+            if hyperlinks == [] and file_data != '':
+                display_links()
         BuildMenu()
         tk.Message(root,text="Search",width=3000).grid(row=1,column=1) #message.
         tk.Label(root,text="Search Keywords").grid(row=2,column=1) #label
@@ -66,13 +71,13 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         global links
         global applyBot
 
-        #try:
-        applyBot.applyTo(L)
-        #except TypeError as Exception:
+        try:
+            applyBot.applyTo(L)
+        except AttributeError as Exception:
             popup = tk.Toplevel()
             tk.Message(popup,text="Error: Please create a profile,",width=3000).grid(row=0,column=0)
             tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
-            
+
 
 
     def open_link(event): #simply opens the links.
@@ -127,7 +132,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         global position
         position = new_position
         print("Saving position as %s" % position)
-        
+
     def save_company(new_company):
         global company
         company = new_company
@@ -184,7 +189,6 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         with jsonlines.open("URLs_from_IndeedSpider.json", mode ='r') as reader:
             distros_dict = reader.iter(type = dict)
 
-            global links
             i=0
             hyperlinks=[]
             for link in distros_dict:
@@ -205,8 +209,11 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         root.destroy()
         exit()
 
+
+    hyperlinks = []
     applyBot = ExpressApply()
     BuildMenu()
     root.geometry("640x480")
     tk.Message(root,text="welcome to Search and Apply.",width=3000).grid(row=1,column=1)
     root.mainloop() #starts the engine.
+
