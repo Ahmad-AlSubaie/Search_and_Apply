@@ -19,22 +19,12 @@ class IndeedSpider(scrapy.Spider):
 
     start_urls = ["https://www.indeed.com/"]
 
-<<<<<<< Updated upstream
-    def __init__(self, item='', , name='', email='',, *args, **kwargs):
-      super(IndeedSpider, self).__init__(*args, **kwargs)
-      self.search=item
-      self.username = name
-      self.email = email
-      options = webdriver.ChromeOptions()
-      options.add_argument('headless')
-      options.add_argument('window-size=1200x600')
-      self.driver = webdriver.Chrome(chrome_options=options)
-      print("##Indeed##")
-=======
+
+
     def __init__(self, searchItem='', *args, **kwargs):
       super(IndeedSpider, self).__init__(*args, **kwargs)
       self.search=searchItem
->>>>>>> Stashed changes
+
 
       print("##Indeed## " + searchItem)
 
@@ -106,11 +96,7 @@ def searchFor(searchVar = '', start_urls = ["https://www.indeed.com/"], name = '
   settings = Settings()
   p = CrawlerRunner(settings)
   for thing in searchVar:
-<<<<<<< Updated upstream
-    p.crawl(IndeedSpider, item=thing, start_urls=start_urls, name=name, email=email)
-=======
     p.crawl(IndeedSpider, searchItem=thing)
->>>>>>> Stashed changes
   p2 = p.join()
   p2.addBoth(lambda _: reactor.stop())
   reactor.run()

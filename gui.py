@@ -1,5 +1,6 @@
 import tkinter as tk #tkinter is our gui lib.
 import webbrowser #webbrowser allows us to open user's default web browser. good for clicking on links.
+import json
 
 from Search_and_Apply.Search_and_Apply.spiders.IndeedSpider import searchFor
 from Search_and_Apply.Search_and_Apply.IndeedExpressApply import ExpressApply
@@ -35,11 +36,12 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         tk.Label(root,text="Search Keywords").grid(row=2,column=1) #label
         key_ent = tk.Entry(root) #text entry
         key_ent.grid(row=2,column=2)
-        tk.Button(root,text="Search",command=lambda:searchFor([key_ent.get()])).grid(row=2,column=3) #search button
+        tk.Button(root,text="Search",command=lambda:search(key_ent.get())).grid(row=2,column=3) #search button
 
     def search(new_keywords): #run one search per keyword. needs work. shouldn't take long.
         global keywords #imports global keywords list
         keywords = new_keywords #saves input from text entry field
+        searchFor([keywords])
         print("searching... %s" % keywords)
         display_links()
 
@@ -113,14 +115,19 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         display_links()
 
     def display_links(): #fun function. turns global links list into hyperlinks in the window.
-        global links
-        i=0
-        hyperlinks=[]
-        for link in links:
-            hyperlinks.append(tk.Label(root,text=link,fg="blue",cursor="hand2"))
-            hyperlinks[i].grid(row=i+10,column=1)
-            hyperlinks[i].bind("<Button-1>",open_link) #button-1 means left-click.
-            i+=1
+
+
+        with open("URLs_from_IndeedSpider.json", 'r') as f:
+            distros_dict = json.load(f)
+
+            global links
+            i=0
+            hyperlinks=[]
+            for link in distros_dict.keys():
+                hyperlinks.append(tk.Label(root,text=link,fg="blue",cursor="hand2"))
+                hyperlinks[i].grid(row=i+10,column=1)
+                hyperlinks[i].bind("<Button-1>",open_link) #button-1 means left-click.
+                i+=1
 
     def AdditionalInfo(): #additional info page.
         for widget in root.winfo_children():
