@@ -126,17 +126,26 @@ if __name__ == '__main__':#not sure what this does. might delete later.
     def save_phone(new_phone):
         global phone
         phone = new_phone
-        print("Saving phone as %s" % phone)
+        popup = tk.Toplevel()
+        tk.Message(popup,text="Profile updated with phone number,",width=3000).grid(row=0,column=0)
+        tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
 
     def save_position(new_position):
         global position
         position = new_position
-        print("Saving position as %s" % position)
+        popup = tk.Toplevel()
+        tk.Message(popup,text="Profile updated with job position,",width=3000).grid(row=0,column=0)
+        tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
+
+
+
 
     def save_company(new_company):
         global company
         company = new_company
-        print("Saving company as %s" % company)
+        popup = tk.Toplevel()
+        tk.Message(popup,text="Profile updated with company name,",width=3000).grid(row=0,column=0)
+        tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
 
     def to_csv():
         #to comma-separated string
@@ -167,14 +176,19 @@ if __name__ == '__main__':#not sure what this does. might delete later.
     def save_name(new_name): #simply saves name from text field to global var.
         global name
         name = new_name
-        applyBot.addName(name)
-        print("Saving name as %s" % name)
+
+        popup = tk.Toplevel()
+        tk.Message(popup,text="Profile updated with your name,",width=3000).grid(row=0,column=0)
+        tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
+
 
     def save_email(new_email): #simply saves email from text field to global var.
         global email
         email = new_email
-        applyBot.addEamil(email)
-        print("Saving email as %s" % email)
+        popup = tk.Toplevel()
+        tk.Message(popup,text="Profile updated with your email,",width=3000).grid(row=0,column=0)
+        tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
+
 
     def Listings(): #listings page. functional.
         for widget in root.winfo_children():
