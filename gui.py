@@ -2,7 +2,7 @@ import tkinter as tk #tkinter is our gui lib.
 import webbrowser #webbrowser allows us to open user's default web browser. good for clicking on links.
 import jsonlines
 import io
-import genCoverLetter as gcl
+#import genCoverLetter as gcl
 
 from Search_and_Apply.Search_and_Apply.spiders.IndeedSpider import searchFor
 from Search_and_Apply.Search_and_Apply.IndeedExpressApply import ExpressApply
@@ -25,7 +25,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         mb.grid(row=0,column=0)
         mb.menu =  tk.Menu (mb, tearoff = 0)
         mb["menu"] =  mb.menu
-        mb.menu.add_command(label="Keywords",command=Keywords)
+        mb.menu.add_command(label="Search",command=Keywords)
         mb.menu.add_command(label="Resume",command=Resume)
         mb.menu.add_command(label="Cover Letter",command=CoverLetter)
         mb.menu.add_command(label="Profile",command=Profile)
@@ -37,7 +37,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         for widget in root.winfo_children(): #eliminates all widgets. clears the window.
             widget.destroy()
         BuildMenu()
-        tk.Message(root,text="Keywords",width=3000).grid(row=1,column=1) #message.
+        tk.Message(root,text="Search",width=3000).grid(row=1,column=1) #message.
         tk.Label(root,text="Search Keywords").grid(row=2,column=1) #label
         key_ent = tk.Entry(root) #text entry
         key_ent.grid(row=2,column=2)
@@ -69,6 +69,10 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         #try:
         applyBot.applyTo(L)
         #except TypeError as Exception:
+            popup = tk.Toplevel()
+            tk.Message(popup,text="Error: Please create a profile,",width=3000).grid(row=0,column=0)
+            tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
+            
 
 
     def open_link(event): #simply opens the links.
@@ -123,7 +127,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         global position
         position = new_position
         print("Saving position as %s" % position)
-
+        
     def save_company(new_company):
         global company
         company = new_company
