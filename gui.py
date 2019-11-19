@@ -47,7 +47,8 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         global name
         global email
         global links
-        print("Applying...")
+        applyBot = ExpressApply(name, email)
+        applyBot.applyTo(links)
 
     def open_link(event): #simply opens the links.
         webbrowser.open_new_tab(event.widget.cget("text"))
