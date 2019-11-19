@@ -62,7 +62,7 @@ class ExpressApply():
         try:
             wait = ui.WebDriverWait(driver, 20)
             text_name.clear()
-            text_name.send_keys("John Smith")
+            text_name.send_keys(self.name)
         except StaleElementReferenceException as Exception:
             print('StaleElementReferenceException while trying to type title')
             text_name = driver.find_element_by_xpath("//*[@id='input-applicant.name']")
@@ -74,7 +74,7 @@ class ExpressApply():
         try:
             wait = ui.WebDriverWait(driver, 20)
             text_email.clear()
-            text_email.send_keys("applysmith2345@gmail.com")
+            text_email.send_keys(self.email)
         except StaleElementReferenceException as Exception:
             print('StaleElementReferenceException while trying to type title')
             text_email = driver.find_element_by_xpath('//*[@id="input-applicant.email"]')
@@ -92,6 +92,8 @@ class ExpressApply():
         #    text_phone = driver.find_element_by_xpath('//*[@id="input-applicant.phoneNumber"]')
         #    text_phone.clear()
         #    text_phone.send_keys("111-222-3456")
+
+        driver.
 
 
         wait = ui.WebDriverWait(driver, 5)

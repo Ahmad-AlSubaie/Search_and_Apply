@@ -46,12 +46,13 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         print("searching... %s" % keywords)
         display_links()
 
-    def apply(): #given name and email and a list of relevant links, call applyTo. needs some work. shouldn't take long.
+    def apply(L): #given name and email and a list of relevant links, call applyTo. needs some work. shouldn't take long.
         global name
         global email
         global links
-        applyBot = ExpressApply(name, email)
-        applyBot.applyTo(links)
+        global applyBot
+
+        applyBot.applyTo(L)
 
     def open_link(event): #simply opens the links.
         webbrowser.open_new_tab(event)
@@ -96,6 +97,10 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         email_ent = tk.Entry(root)
         email_ent.grid(row=3,column=2)
         tk.Button(root,text="Save Email",command=lambda: save_email(email_ent.get())).grid(row=3,column=3)
+
+        global applyBot
+        applyBot = ExpressApply(name_ent, email_ent)
+
         #we could add things here. profile1, profile2, etc. would take some time.
 
     def save_name(new_name): #simply saves name from text field to global var.
