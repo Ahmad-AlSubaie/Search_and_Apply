@@ -14,16 +14,20 @@ from selenium.common.exceptions import StaleElementReferenceException
 class ExpressApply():
 
 
-    def __init__(self, name='', email=''):
-
-      self.username = name
-      self.email = email
+    def __init__(self):
       options = webdriver.ChromeOptions()
       options.add_argument('headless')
       options.add_argument('window-size=1200x600')
       self.driver = webdriver.Chrome(chrome_options=options)
 
       print("##Apply##")
+
+
+    def addEamil(self, email):
+        self.email = email
+
+    def addName(self, name):
+        self.username = name
 
     def applyTo(self, links):
         if isinstance(links, str):

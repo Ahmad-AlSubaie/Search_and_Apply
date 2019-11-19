@@ -153,19 +153,18 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         email_ent.grid(row=3,column=2)
         tk.Button(root,text="Save Email",command=lambda: save_email(email_ent.get())).grid(row=3,column=3)
 
-        global applyBot
-        applyBot = ExpressApply(name_ent, email_ent)
-
         #we could add things here. profile1, profile2, etc. would take some time.
 
     def save_name(new_name): #simply saves name from text field to global var.
         global name
         name = new_name
+        applyBot.addName(name)
         print("Saving name as %s" % name)
 
     def save_email(new_email): #simply saves email from text field to global var.
         global email
         email = new_email
+        applyBot.addEamil(email)
         print("Saving email as %s" % email)
 
     def Listings(): #listings page. functional.
@@ -202,6 +201,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         root.destroy()
         exit()
 
+    applyBot = ExpressApply()
     BuildMenu()
     root.geometry("640x480")
     tk.Message(root,text="welcome to Search and Apply.",width=3000).grid(row=1,column=1)
