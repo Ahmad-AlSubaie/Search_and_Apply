@@ -61,6 +61,17 @@ except StaleElementReferenceException as Exception:
     text_email = driver.find_element_by_xpath('//*[@id="input-applicant.email"]')
     text_email.clear()
     text_email.send_keys("applysmith2345@gmail.com")
+    
+resume_element = driver.find_element_by_xpath('/html/body/div/div/div/div[2]/form/div[2]/div[1]/div/div/div/div[5]/div/input')
+try:     
+    wait = ui.WebDriverWait(driver, 30)
+    #text_phone.clear()
+    resume_element.send_keys(os.path.abspath("resume.txt"))
+except StaleElementReferenceException as Exception:
+    print('StaleElementReferenceException while trying to type title')
+    resume_element = driver.find_element_by_xpath('/html/body/div/div/div/div[2]/form/div[2]/div[1]/div/div/div/div[5]/div/input') 
+    #text_phone.clear()
+    resume_element.send_keys("resume")
 
 # filling phone
 text_phone = driver.find_element_by_xpath('//*[@id="input-applicant.phoneNumber"]')   
