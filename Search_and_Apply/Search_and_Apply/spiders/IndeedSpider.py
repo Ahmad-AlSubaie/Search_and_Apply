@@ -4,8 +4,6 @@ from twisted.internet import reactor
 from scrapy.crawler import CrawlerRunner
 from scrapy.settings import Settings
 
-from scrapy.http import HtmlResponse
-
 
 class IndeedSpider(scrapy.Spider):
     name = "IndeedSpider"
@@ -57,6 +55,8 @@ class IndeedSpider(scrapy.Spider):
 
       print("Indeed Done")
 
+
+      return data
 #      jobs1 = response.xpath("//div[contains(@class,'jobsearch-SerpJobCard unifiedRow row result')]").xpath("./div/a/@title").getall()
 #      jobs2 = response.xpath("//div[contains(@class,'jobsearch-SerpJobCard unifiedRow row result')]").xpath("./div/a/@href").getall()
 #      jobs3 = response.xpath("//div[contains(@class,'jobsearch-SerpJobCard unifiedRow row result')]").xpath("./div/div/span/text()").getall()
@@ -82,7 +82,7 @@ class IndeedSpider(scrapy.Spider):
 
 
 
-      return data
+
 
 
 

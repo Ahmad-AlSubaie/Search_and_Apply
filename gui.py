@@ -51,7 +51,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
     def search(new_keywords): #run one search per keyword. needs work. shouldn't take long.
         global keywords #imports global keywords list
         keywords = new_keywords #saves input from text entry field
-        searchFor([keywords])
+        print(searchFor([keywords]))
         print("searching... %s" % keywords)
         display_links()
 
@@ -66,17 +66,19 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         gcl.write_cover_letter()
 
     def apply(L): #given name and email and a list of relevant links, call applyTo. needs some work. shouldn't take long.
-        global applyBot
 
-        #try:
-        applyBot.applyTo(L)
+        try:
+            applyBot.applyTo(L)
         except AttributeError as e:
             print(e)
             print(L)
             popup = tk.Toplevel()
-            tk.Message(popup,text="Error: Please create a profile,",width=3000).grid(row=0,column=0)
+            tk.Message(popup,text="Error: Please create a profile",width=3000).grid(row=0,column=0)
             tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
-
+        except Exception as e2:
+            popup = tk.Toplevel()
+            tk.Message(popup,text="Oops, something went wrong. Please contact administrators",width=3000).grid(row=0,column=0)
+            tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
 
 
     def open_link(event): #simply opens the links.
@@ -126,14 +128,14 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         global phone
         phone = new_phone
         popup = tk.Toplevel()
-        tk.Message(popup,text="Profile updated with phone number,",width=3000).grid(row=0,column=0)
+        tk.Message(popup,text="Profile updated with phone number",width=3000).grid(row=0,column=0)
         tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
 
     def save_position(new_position):
         global position
         position = new_position
         popup = tk.Toplevel()
-        tk.Message(popup,text="Profile updated with job position,",width=3000).grid(row=0,column=0)
+        tk.Message(popup,text="Profile updated with job position",width=3000).grid(row=0,column=0)
         tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
 
 
@@ -141,7 +143,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         global company
         company = new_company
         popup = tk.Toplevel()
-        tk.Message(popup,text="Profile updated with company name,",width=3000).grid(row=0,column=0)
+        tk.Message(popup,text="Profile updated with company name",width=3000).grid(row=0,column=0)
         tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
 
     def to_csv():
@@ -175,7 +177,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         name = new_name
         applyBot.addName(name)
         popup = tk.Toplevel()
-        tk.Message(popup,text="Profile updated with your name,",width=3000).grid(row=0,column=0)
+        tk.Message(popup,text="Profile updated with your name",width=3000).grid(row=0,column=0)
         tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
 
 
@@ -184,7 +186,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
         email = new_email
         applyBot.addEmail(email)
         popup = tk.Toplevel()
-        tk.Message(popup,text="Profile updated with your email,",width=3000).grid(row=0,column=0)
+        tk.Message(popup,text="Profile updated with your email",width=3000).grid(row=0,column=0)
         tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
 
 
