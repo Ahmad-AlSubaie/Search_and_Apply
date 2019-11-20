@@ -56,7 +56,7 @@ class ExpressApply():
 
         # Directing the driver to the popped up new frame
 
-        wait = ui.WebDriverWait(driver, 20)
+        wait = ui.WebDriverWait(driver, 40)
         frame = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[5]/div/div[2]/iframe")))
         driver.switch_to.frame(frame)
         wait.until(EC.frame_to_be_available_and_switch_to_it(0))
@@ -66,7 +66,7 @@ class ExpressApply():
         # filling name
         text_name = driver.find_element_by_xpath("//*[@id='input-applicant.name']")
         try:
-            wait = ui.WebDriverWait(driver, 20)
+            wait = ui.WebDriverWait(driver, 40)
             text_name.clear()
             text_name.send_keys(self.username)
         except StaleElementReferenceException as Exception:
@@ -78,7 +78,7 @@ class ExpressApply():
         # filling email
         text_email = driver.find_element_by_xpath('//*[@id="input-applicant.email"]')
         try:
-            wait = ui.WebDriverWait(driver, 20)
+            wait = ui.WebDriverWait(driver, 40)
             text_email.clear()
             text_email.send_keys(self.email)
         except StaleElementReferenceException as Exception:
