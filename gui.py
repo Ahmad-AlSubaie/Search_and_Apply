@@ -41,6 +41,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
             file_data = reader.read().strip('\n []{}')
             if hyperlinks == [] and file_data != '':
                 display_links()
+        reader.close()
         BuildMenu()
         tk.Message(root,text="Search",width=3000).grid(row=1,column=1) #message.
         tk.Label(root,text="Search Keywords").grid(row=2,column=1) #label
@@ -51,7 +52,7 @@ if __name__ == '__main__':#not sure what this does. might delete later.
     def search(new_keywords): #run one search per keyword. needs work. shouldn't take long.
         global keywords #imports global keywords list
         keywords = new_keywords #saves input from text entry field
-        print(searchFor([keywords]))
+        searchFor([keywords])
         print("searching... %s" % keywords)
         display_links()
 
@@ -81,6 +82,10 @@ if __name__ == '__main__':#not sure what this does. might delete later.
             tk.Button(popup,text="OK",command=popup.destroy).grid(row=1,column=1)
 
 
+    def del_all_listings():
+        with open("URLs_from_IndeedSpider.json", mode ='w') as f:
+            f.write('')
+        f.close()
     def open_link(event): #simply opens the links.
         webbrowser.open_new_tab(event)
 
