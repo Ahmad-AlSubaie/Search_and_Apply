@@ -99,4 +99,6 @@ def searchFor(searchVar = '', start_urls = ["https://www.indeed.com/"], name = '
     p.crawl(IndeedSpider, searchItem=thing)
   p2 = p.join()
   p2.addBoth(lambda _: reactor.stop())
-  reactor.run()
+
+  if not reactor.running:
+      reactor.run()
